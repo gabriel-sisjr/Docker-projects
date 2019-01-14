@@ -1,0 +1,28 @@
+version: "3" 
+services:
+  # Servidor HTTP
+  apache:
+    build:
+      dockerfile: apache.Dockerfile
+      context: ./Docker/apache
+    volumes:
+      - "./src:/var/www/html"
+    ports:
+      - "80:80"
+    depends_on:
+      - php
+    container_name: apache
+
+  # Codigos da aplicação
+  php:
+    build:
+      dockerfile: php.Dockerfile
+      context: ./Docker/php
+    volumes:
+      - "./src:/var/www/html"
+    ports:
+      - "9000:9000"
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASS=123.456
+    container_name: php
